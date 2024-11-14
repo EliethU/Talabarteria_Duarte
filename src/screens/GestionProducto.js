@@ -1,19 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, Button, StyleSheet, Alert, FlatList, TextInput, Image, TouchableOpacity, ScrollView } from 'react-native';
-import { getFirestore, collection, getDocs, deleteDoc, doc, updateDoc } from 'firebase/firestore';
+import { Text, View, Button, StyleSheet, Alert, FlatList, Image, TouchableOpacity, ScrollView, TextInput } from 'react-native';  // Asegúrate de importar TextInput aquí
+import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { appFirebase } from '../..//db/firebaseconfig'; 
-import Icon from 'react-native-vector-icons/MaterialIcons';  // Importar los íconos
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 export default function ProductManagement() {
     const db = getFirestore(appFirebase);
     const [products, setProducts] = useState([]);
-    const [editingProduct, setEditingProduct] = useState(null);
-    const [nombre, setNombre] = useState('');
-    const [descripcion, setDescripcion] = useState('');
-    const [precio, setPrecio] = useState('');
-    const [cantidad, setCantidad] = useState('');
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [searchText, setSearchText] = useState('');
+    const [editingProduct, setEditingProduct] = useState(null);
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -46,37 +42,15 @@ export default function ProductManagement() {
     };
 
     const startEditing = (product) => {
-        // Limpiar el campo de búsqueda cuando se empieza a editar
-        setSearchText('');
         setEditingProduct(product);
-        setNombre(product.nombre);
-        setDescripcion(product.descripcion);
-        setPrecio(product.precio.toString());
-        setCantidad(product.cantidad.toString());
     };
 
-    const updateProduct = async () => {
-        if (!nombre || !descripcion || !precio || !cantidad) {
-            Alert.alert("Error", "Todos los campos son requeridos.");
-            return;
-        }
-
-        const updatedProduct = {
-            nombre,
-            descripcion,
-            precio: parseFloat(precio),
-            cantidad: parseInt(cantidad),
-        };
-
+    const updateProduct = async (product) => {
         try {
-            const productRef = doc(db, 'productos', editingProduct.id);
-            await updateDoc(productRef, updatedProduct);
-            setProducts(products.map(product =>
-                product.id === editingProduct.id ? { ...product, ...updatedProduct } : product
-            ));
-            setFilteredProducts(filteredProducts.map(product =>
-                product.id === editingProduct.id ? { ...product, ...updatedProduct } : product
-            ));
+            const productRef = doc(db, 'productos', product.id);
+            await updateDoc(productRef, product);
+            setProducts(products.map(p => p.id === product.id ? product : p));
+            setFilteredProducts(filteredProducts.map(p => p.id === product.id ? product : p));
             setEditingProduct(null);
             Alert.alert("Éxito", "Producto actualizado con éxito");
         } catch (error) {
@@ -87,15 +61,12 @@ export default function ProductManagement() {
 
     const filterProducts = (text) => {
         setSearchText(text);
-
         const lowercasedText = text.toLowerCase();
         const filtered = products.filter(product => {
             const matchName = product.nombre.toLowerCase().includes(lowercasedText);
             const matchPrice = product.precio.toString().includes(lowercasedText);
-
             return matchName || matchPrice;
         });
-
         setFilteredProducts(filtered);
     };
 
@@ -103,46 +74,42 @@ export default function ProductManagement() {
         <View style={styles.container}>
             <Text style={styles.title}>Gestión de Productos</Text>
 
-            {!editingProduct && (
-                <TextInput
-                    style={styles.input}
-                    placeholder="Buscar por nombre o precio"
-                    value={searchText}
-                    onChangeText={filterProducts}
-                />
-            )}
+            {/* Barra de búsqueda */}
+            <TextInput
+                style={styles.input}
+                placeholder="Buscar por nombre o precio"
+                value={searchText}
+                onChangeText={filterProducts}
+            />
 
+            {/* Lista de productos */}
             {editingProduct ? (
                 <View style={styles.form}>
                     <Text style={styles.formTitle}>Editar producto</Text>
-                    <Text style={styles.inputLabel}>Nombre del producto</Text>
                     <TextInput
                         style={styles.input}
-                        value={nombre}
-                        onChangeText={setNombre}
+                        value={editingProduct.nombre}
+                        onChangeText={(text) => setEditingProduct({ ...editingProduct, nombre: text })}
                     />
-                    <Text style={styles.inputLabel}>Descripción</Text>
                     <TextInput
                         style={styles.input}
-                        value={descripcion}
-                        onChangeText={setDescripcion}
+                        value={editingProduct.descripcion}
+                        onChangeText={(text) => setEditingProduct({ ...editingProduct, descripcion: text })}
                     />
-                    <Text style={styles.inputLabel}>Precio</Text>
                     <TextInput
                         style={styles.input}
-                        value={precio}
-                        onChangeText={setPrecio}
+                        value={editingProduct.precio.toString()}
+                        onChangeText={(text) => setEditingProduct({ ...editingProduct, precio: parseFloat(text) })}
                         keyboardType="numeric"
                     />
-                    <Text style={styles.inputLabel}>Cantidad en stock</Text>
                     <TextInput
                         style={styles.input}
-                        value={cantidad}
-                        onChangeText={setCantidad}
+                        value={editingProduct.cantidad.toString()}
+                        onChangeText={(text) => setEditingProduct({ ...editingProduct, cantidad: parseInt(text) })}
                         keyboardType="numeric"
                     />
                     <View style={styles.buttonRow}>
-                        <Button title="Actualizar Producto" onPress={updateProduct} />
+                        <Button title="Actualizar Producto" onPress={() => updateProduct(editingProduct)} />
                         <Button title="Cancelar" onPress={() => setEditingProduct(null)} />
                     </View>
                 </View>
@@ -165,7 +132,6 @@ export default function ProductManagement() {
                                 </View>
                             </ScrollView>
                             <View style={styles.buttonRow}>
-                                {/* Reemplazar botones por íconos */}
                                 <TouchableOpacity onPress={() => startEditing(item)}>
                                     <Icon name="edit" size={24} color="#4CAF50" />
                                 </TouchableOpacity>
@@ -179,7 +145,7 @@ export default function ProductManagement() {
                                         ]
                                     );
                                 }}>
-                                    <Icon name="delete" size={24} color="#f44336" />
+                                    <Icon name="delete" size={24} color="red" />
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -193,64 +159,50 @@ export default function ProductManagement() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 15,
-        backgroundColor: '#f5f5f5',
+        padding: 20,
     },
     title: {
         fontSize: 24,
         fontWeight: 'bold',
+        marginBottom: 20,
         textAlign: 'center',
-        marginVertical: 15,
     },
     input: {
+        height: 40,
         borderColor: '#ccc',
         borderWidth: 1,
-        padding: 10,
-        marginBottom: 15,
         borderRadius: 5,
-        backgroundColor: '#fff',
-    },
-    inputLabel: {
-        fontSize: 14,
-        fontWeight: 'bold',
-        marginBottom: 5,
-    },
-    form: {
-        marginBottom: 20,
-        backgroundColor: '#fff',
-        padding: 15,
-        borderRadius: 10,
-        elevation: 3,
-    },
-    formTitle: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        marginBottom: 15,
-    },
-    buttonRow: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginTop: 15,
+        paddingLeft: 10,
+        marginBottom: 10,
     },
     productRow: {
         flexDirection: 'row',
-        marginBottom: 15,
-        borderBottomWidth: 1,
-        borderBottomColor: '#ddd',
-        paddingBottom: 10,
-        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginBottom: 20,
+    },
+    productInfo: {
+        flex: 1,
+        paddingLeft: 10,
     },
     productImage: {
         width: 100,
         height: 100,
-        marginRight: 15,
-        borderRadius: 5,
+        marginRight: 10,
     },
-    productInfo: {
-        flex: 1,
-        minWidth: 200,
+    buttonRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
     },
     bold: {
         fontWeight: 'bold',
     },
+    form: {
+        marginTop: 20,
+    },
+    formTitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginBottom: 10,
+    }
 });

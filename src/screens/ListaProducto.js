@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, FlatList, Image, TextInput, TouchableOpacity, Alert, Dimensions } from 'react-native';
+import { Text, View, StyleSheet, FlatList, Image, TextInput, Dimensions } from 'react-native';
 import { getFirestore, collection, getDocs } from 'firebase/firestore';
 import { appFirebase } from '../../db/firebaseconfig';
+import { useFocusEffect } from '@react-navigation/native'; // Importa el hook de React Navigation
 
 export default function ProductList() {
     const db = getFirestore(appFirebase);
@@ -10,23 +11,26 @@ export default function ProductList() {
     const [searchText, setSearchText] = useState('');
 
     // Obtener productos desde Firestore
-    useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                const querySnapshot = await getDocs(collection(db, 'productos'));
-                const productsList = querySnapshot.docs.map(doc => ({
-                    id: doc.id,
-                    ...doc.data(),
-                }));
-                setProducts(productsList);
-                setFilteredProducts(productsList); // Mostrar todos los productos inicialmente
-            } catch (error) {
-                console.log("Error al obtener los productos: ", error);
-            }
-        };
+    const fetchProducts = async () => {
+        try {
+            const querySnapshot = await getDocs(collection(db, 'productos'));
+            const productsList = querySnapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data(),
+            }));
+            setProducts(productsList);
+            setFilteredProducts(productsList); // Mostrar todos los productos inicialmente
+        } catch (error) {
+            console.log("Error al obtener los productos: ", error);
+        }
+    };
 
-        fetchProducts();
-    }, []);
+    // Cargar productos cuando la pantalla se enfoque (cada vez que se regrese a esta pantalla)
+    useFocusEffect(
+        React.useCallback(() => {
+            fetchProducts();
+        }, [])
+    );
 
     // Filtrar productos según el texto de búsqueda
     useEffect(() => {
@@ -36,11 +40,6 @@ export default function ProductList() {
         );
         setFilteredProducts(filtered);
     }, [searchText, products]);
-
-    // // Función para el botón de "Compra"
-    // const handleBuy = (nombre) => {
-    //     Alert.alert("Compra realizada", `Has comprado el producto: ${nombre}`);
-    // };
 
     return (
         <View style={styles.container}>
@@ -68,12 +67,6 @@ export default function ProductList() {
                         <Text style={styles.nombre}>{item.nombre}</Text>
                         <Text style={styles.descripcion}>{item.descripcion}</Text>
                         <Text style={styles.precio}>${item.precio}</Text>
-                        {/* <TouchableOpacity 
-                            style={styles.buyButton} 
-                            onPress={() => handleBuy(item.nombre)}
-                        >
-                            <Text style={styles.buyButtonText}>Comprar</Text>
-                        </TouchableOpacity> */}
                     </View>
                 )}
                 contentContainerStyle={styles.listContainer}
@@ -144,15 +137,4 @@ const styles = StyleSheet.create({
         color: '#4f481e',
         marginBottom: 10,
     },
-    // buyButton: {
-    //     backgroundColor: '#ff5722',
-    //     paddingVertical: 10,
-    //     paddingHorizontal: 20,
-    //     borderRadius: 5,
-    //     marginTop: 10,
-    // },
-    // buyButtonText: {
-    //     color: '#fff',
-    //     fontWeight: 'bold',
-    // },
 });

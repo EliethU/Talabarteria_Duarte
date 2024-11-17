@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Button, Alert } from 'react-native';
 import { PieChart } from 'react-native-chart-kit';
 import { Dimensions } from 'react-native';
 import { getFirestore, collection, getDocs } from 'firebase/firestore';
+import { jsPDF } from 'jspdf';
+import * as FileSystem from 'expo-file-system'; // Manejo de archivos
+import * as Sharing from 'expo-sharing'; // Para compartir archivos
 
 export default function Estadistica() {
     const [data, setData] = useState([]);
@@ -63,6 +66,43 @@ export default function Estadistica() {
         return colorPalette[index % colorPalette.length];
     };
 
+    const generarPDF = async () => {
+        try {
+            // Crear una instancia de jsPDF
+            const doc = new jsPDF();
+
+            // Agregar título al PDF
+            doc.text("Reporte de Productos por categoría", 10, 10);
+
+            // Agregar los datos al PDF desde los datos del gráfico
+            let yOffset = 20;  // Posición de inicio para los textos
+
+            data.forEach((item, index) => {
+                // Agregar el nombre de la categoría y la cantidad
+                doc.text(`${item.name}: ${item.cantidad.toFixed(2)} unidades`, 10, yOffset);
+                yOffset += 10;  // Incrementar el desplazamiento para el siguiente texto
+            });
+
+            // Generar el PDF como base64
+            const pdfBase64 = doc.output('datauristring').split(',')[1];
+
+            // Definir la ruta temporal para el archivo PDF en el sistema de archivos del dispositivo
+            const fileUri = `${FileSystem.documentDirectory}reporte_producto.pdf`;
+
+            // Guardar el archivo PDF
+            await FileSystem.writeAsStringAsync(fileUri, pdfBase64, {
+                encoding: FileSystem.EncodingType.Base64
+            });
+
+            // Compartir el archivo PDF
+            await Sharing.shareAsync(fileUri);
+
+        } catch (error) {
+            console.error("Error al generar o compartir el PDF: ", error);
+            Alert.alert('Error', 'No se pudo generar o compartir el PDF.');
+        }
+    };
+
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Distribución por Categorías</Text>
@@ -81,6 +121,9 @@ export default function Estadistica() {
             ) : (
                 <Text>No se encontraron productos con cantidad válida.</Text>
             )}
+
+            {/* Botón para generar y compartir PDF */}
+            <Button title="Generar y Compartir PDF" onPress={generarPDF} />
         </View>
     );
 }

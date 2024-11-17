@@ -60,10 +60,10 @@ export default function ProductList() {
                         ) : (
                             <Text style={styles.noImageText}>Sin Imagen</Text>
                         )}
-                        <Text style={styles.nombre}>{item.nombre}</Text>
-                        <Text style={styles.descripcion}>{item.descripcion}</Text>
-                        <Text style={styles.precio}>${item.precio}</Text>
-                        {item.categoria && <Text style={styles.categoria}>{item.categoria}</Text>}  {/* Aquí mostramos la categoría */}
+                        <Text style={styles.nombre}>{item.nombre ? String(item.nombre) : 'Nombre no disponible'}</Text>
+                        <Text style={styles.descripcion}>{item.descripcion ? String(item.descripcion) : 'Descripción no disponible'}</Text>
+                        <Text style={styles.precio}>${item.precio ? String(item.precio) : 'Precio no disponible'}</Text>
+                        {item.categoria && <Text style={styles.categoria}>{String(item.categoria)}</Text>}
                     </View>
                 )}
                 contentContainerStyle={styles.listContainer}

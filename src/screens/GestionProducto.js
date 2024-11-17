@@ -143,32 +143,33 @@ export default function ProductManagement() {
                         <View style={styles.productRow}>
                             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                                 <Image
-                                    source={{ uri: item.imageUrl }}
+                                    source={{ uri: item.imageUrl || 'defaultImageURL' }} // Imagen por defecto
                                     style={styles.productImage}
                                 />
                                 <View style={styles.productInfo}>
-                                    <Text><Text style={styles.bold}>Nombre:</Text> {item.nombre}</Text>
-                                    <Text><Text style={styles.bold}>Descripción:</Text> {item.descripcion}</Text>
-                                    <Text><Text style={styles.bold}>Precio:</Text> ${item.precio}</Text>
-                                    <Text><Text style={styles.bold}>Cantidad en stock:</Text> {item.cantidad}</Text>
-                                    <Text><Text style={styles.bold}>Categoría:</Text> {item.categoria}</Text> {/* Mostrar categoría */}
+                                    <Text style={styles.productInfoText}>
+                                        <Text style={styles.bold}>Nombre:</Text> {item.nombre}
+                                    </Text>
+                                    <Text style={styles.productInfoText}>
+                                        <Text style={styles.bold}>Descripción:</Text> {item.descripcion}
+                                    </Text>
+                                    <Text style={styles.productInfoText}>
+                                        <Text style={styles.bold}>Precio:</Text> ${item.precio}
+                                    </Text>
+                                    <Text style={styles.productInfoText}>
+                                        <Text style={styles.bold}>Cantidad en stock:</Text> {item.cantidad}
+                                    </Text>
+                                    <Text style={styles.productInfoText}>
+                                        <Text style={styles.bold}>Categoría:</Text> {item.categoria}
+                                    </Text>
                                 </View>
                             </ScrollView>
-                            <View style={styles.buttonRow}>
+                            <View style={styles.actions}>
                                 <TouchableOpacity onPress={() => startEditing(item)}>
-                                    <Icon name="hammer-screwdriver" size={24} color="#A0522D" />
+                                    <Icon name="pencil" size={25} color="orange" />
                                 </TouchableOpacity>
-                                <TouchableOpacity onPress={() => {
-                                    Alert.alert(
-                                        "Confirmar Eliminación",
-                                        "¿Estás seguro de que deseas eliminar este producto?",
-                                        [
-                                            { text: "Cancelar", style: "cancel" },
-                                            { text: "Eliminar", onPress: () => deleteProduct(item.id) },
-                                        ]
-                                    );
-                                }}>
-                                    <Icon name="delete" size={24} color="#8B0000" />
+                                <TouchableOpacity onPress={() => deleteProduct(item.id)}>
+                                    <Icon name="delete" size={25} color="red" />
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -180,78 +181,19 @@ export default function ProductManagement() {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 20,
-        backgroundColor: '#F5F5DC', // Beige
-    },
-    title: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 20,
-        textAlign: 'center',
-        color: '#8B4513', // Marrón oscuro
-    },
-    input: {
-        height: 40,
-        borderColor: '#A0522D',
-        borderWidth: 1,
-        borderRadius: 5,
-        paddingLeft: 10,
-        marginBottom: 10,
-        backgroundColor: '#FFF',
-    },
-    pickerContainer: {
-        borderWidth: 1,
-        borderColor: '#8B5E3C', // Color marrón cálido
-        borderRadius: 10, // Bordes redondeados
-        padding: 10,
-        backgroundColor: '#F5F0E1', // Color claro similar al cuero envejecido
-        marginTop: 8,
-        marginBottom: 12,
-    },
-    pickerText: {
-        fontSize: 16,
-        color: '#5D3F1F', // Color oscuro para el texto, tipo cuero
-    },
-    form: {
-        marginBottom: 20,
-    },
-    formTitle: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        marginBottom: 15,
-    },
-    label: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        marginBottom: 8,
-    },
-    productRow: {
-        flexDirection: 'row',
-        marginBottom: 15,
-        padding: 10,
-        backgroundColor: '#FFF',
-        borderRadius: 8,
-        borderWidth: 1,
-        borderColor: '#A0522D',
-        alignItems: 'center',
-    },
-    productImage: {
-        width: 100,
-        height: 100,
-        borderRadius: 8,
-        marginRight: 15,
-    },
-    productInfo: {
-        flex: 1,
-    },
-    bold: {
-        fontWeight: 'bold',
-    },
-    buttonRow: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        width: 100,
-    },
+    container: { flex: 1, padding: 20 },
+    title: { fontSize: 24, fontWeight: 'bold', textAlign: 'center', marginBottom: 20 },
+    input: { borderWidth: 1, borderColor: '#ccc', padding: 10, marginBottom: 20, borderRadius: 5 },
+    form: { marginBottom: 20 },
+    formTitle: { fontSize: 18, fontWeight: 'bold', marginBottom: 10 },
+    label: { fontSize: 16, fontWeight: 'bold', marginBottom: 5 },
+    pickerContainer: { borderWidth: 1, borderColor: '#ccc', borderRadius: 5, marginBottom: 10 },
+    pickerText: { height: 40, width: '100%' },
+    buttonRow: { flexDirection: 'row', justifyContent: 'space-between' },
+    productRow: { flexDirection: 'row', marginBottom: 20, borderBottomWidth: 1, borderBottomColor: '#ccc', paddingBottom: 10 },
+    productImage: { width: 100, height: 100, marginRight: 10 },
+    productInfo: { flex: 1, justifyContent: 'center' },
+    productInfoText: { fontSize: 16, marginBottom: 5 },
+    bold: { fontWeight: 'bold' },
+    actions: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' },
 });

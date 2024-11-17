@@ -63,6 +63,7 @@ export default function ProductList() {
                         <Text style={styles.nombre}>{item.nombre}</Text>
                         <Text style={styles.descripcion}>{item.descripcion}</Text>
                         <Text style={styles.precio}>${item.precio}</Text>
+                        {item.categoria && <Text style={styles.categoria}>{item.categoria}</Text>}  {/* Aquí mostramos la categoría */}
                     </View>
                 )}
                 contentContainerStyle={styles.listContainer}
@@ -147,5 +148,10 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#4f2d13',
         marginBottom: 10,
+    },
+    categoria: {
+        fontSize: 14,
+        fontStyle: 'italic',
+        color: '#7f6a3d',
     },
 });

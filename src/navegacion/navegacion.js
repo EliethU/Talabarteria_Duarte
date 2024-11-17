@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'; // Cambiado
 import Product from '../screens/producto.js';
 import productList from '../screens/ListaProducto.js';
 import GestionProducto from '../screens/GestionProducto.js';
+import Estadistica from '../screens/Estadisticas.js';
 
 const Tab = createBottomTabNavigator();
 
@@ -63,6 +64,15 @@ function MyTabs() {
                         <Icon name="toolbox" size={size + 4} color={color} />
                     ),
                     title: 'Gestión de Productos', // Título en la barra superior
+                }}
+            />
+             <Tab.Screen
+                name="Estadísticas"
+                component={Estadistica} // Pantalla de estadísticas
+                options={{
+                    tabBarIcon: ({ color, size }) => (
+                        <Icon name="chart-bar" size={size + 4} color={color} />
+                    ),
                 }}
             />
         </Tab.Navigator>

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { collection, addDoc, getFirestore } from "firebase/firestore"; 
 import * as ImagePicker from 'expo-image-picker';
 import { appFirebase } from '../../db/firebaseconfig';
+import { Picker } from '@react-native-picker/picker'; // Importar el Picker
 
 export default function Product() {
     const db = getFirestore(appFirebase);
@@ -12,6 +13,7 @@ export default function Product() {
         descripcion: "",
         cantidad: "",
         precio: "",
+        categoria: "", // Agregar la categoría en el estado
         imagen: "https://example.com/default-image.png",
     });
 
@@ -71,6 +73,11 @@ export default function Product() {
             valid = false;
         }
 
+        if (!product.categoria.trim()) {
+            newErrors.categoria = 'La categoría es obligatoria';
+            valid = false;
+        }
+
         setErrors(newErrors);
 
         if (valid) {
@@ -85,6 +92,7 @@ export default function Product() {
                 descripcion: "",
                 cantidad: "",
                 precio: "",
+                categoria: "", // Resetear la categoría
                 imagen: "https://example.com/default-image.png",
             });
             setImage(null);
@@ -104,7 +112,7 @@ export default function Product() {
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            <Text style={styles.titulo}>Nuevo producto</Text>
+            <Text style={styles.titulo}>Nuevo Producto</Text>
 
             <View style={styles.inputContainer}>
                 <Text style={styles.label}>Nombre del producto:</Text>
@@ -126,6 +134,26 @@ export default function Product() {
                     onChangeText={(value) => establecerEstado("descripcion", value)}
                 />
                 {errors.descripcion && <Text style={styles.errorText}>{errors.descripcion}</Text>}
+            </View>
+
+            <View style={styles.inputContainer}>
+                <Text style={styles.label}>Categoría:</Text>
+                <Picker
+                    selectedValue={product.categoria}
+                    onValueChange={(itemValue) => establecerEstado("categoria", itemValue)}
+                    style={styles.TextInput}
+                >
+                    <Picker.Item label="Seleccione una categoría" value="" />
+                    <Picker.Item label="Accesorios de vestimenta" value="vestimenta" />
+                    <Picker.Item label="Bolsos/Carteras" value="bolsos" />
+                    <Picker.Item label="Articulos de montura" value="montura" />
+                    <Picker.Item label="Herramientas/Accesorios para caballos" value="caballos" />
+                    <Picker.Item label="Accesorios para herramientas" value="herramientas" />
+                    <Picker.Item label="Decoracion para el hogar" value="hogar" />
+                    <Picker.Item label="Calzado" value="calzado" />
+                    <Picker.Item label="Accesorios personales" value="personales" />
+                </Picker>
+                {errors.categoria && <Text style={styles.errorText}>{errors.categoria}</Text>}
             </View>
 
             <View style={styles.inputContainer}>
@@ -168,70 +196,57 @@ export default function Product() {
 const styles = StyleSheet.create({
     container: {
         padding: 20,
-        backgroundColor: '#f7f3e9', // Fondo cálido similar al cuero claro.
+        backgroundColor: '#fff',
     },
     titulo: {
-        fontSize: 26,
+        fontSize: 24,
         fontWeight: 'bold',
         textAlign: 'center',
         marginVertical: 20,
-        color: '#6b4226', // Tonos marrones oscuros similares al cuero curtido.
-        fontFamily: 'serif', // Fuente que evoca un diseño clásico.
+        color: '#333',
     },
     inputContainer: {
         marginBottom: 20,
     },
     label: {
-        fontSize: 18,
+        fontSize: 16,
         marginBottom: 8,
-        color: '#6b4226',
-        fontWeight: '600',
+        color: '#333',
     },
     TextInput: {
-        borderColor: '#d4a373', // Color similar al costurado de cuero.
+        borderColor: '#ddd',
         borderWidth: 1,
-        borderRadius: 10,
+        borderRadius: 8,
         padding: 12,
         fontSize: 16,
-        backgroundColor: '#fffbe8', // Fondo cálido que recuerda la artesanía.
-        fontFamily: 'sans-serif',
+        width: '100%',
     },
     errorText: {
-        color: '#b22222', // Rojo para destacar errores.
+        color: 'red',
         marginTop: 4,
-        fontSize: 14,
-        fontWeight: 'bold',
     },
     image: {
         width: 150,
         height: 150,
         marginVertical: 10,
         alignSelf: 'center',
-        borderRadius: 10,
-        borderWidth: 2,
-        borderColor: '#6b4226', // Detalles marrones para resaltar.
+        borderRadius: 8,
     },
     button: {
-        backgroundColor: '#a5673f', // Marrón cálido.
+        backgroundColor: '#b59f5e',
         paddingVertical: 12,
         paddingHorizontal: 20,
         borderRadius: 8,
         marginTop: 10,
         alignItems: 'center',
-        shadowColor: '#000', // Sombra sutil para resaltar el botón.
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
     },
     buttonText: {
-        color: '#fefae0', // Tonos crema.
+        color: '#fff',
         fontSize: 16,
         fontWeight: 'bold',
-        fontFamily: 'serif',
     },
     submitButton: {
-        backgroundColor: '#5d3e1e', // Marrón oscuro para acciones importantes.
+        backgroundColor: '#705b14',
         paddingVertical: 12,
         paddingHorizontal: 20,
         borderRadius: 8,
@@ -239,10 +254,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     submitButtonText: {
-        color: '#fff', // Contraste claro.
+        color: '#fff',
         fontSize: 18,
         fontWeight: 'bold',
-        fontFamily: 'serif',
     },
 });
-

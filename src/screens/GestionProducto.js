@@ -3,6 +3,7 @@ import { Text, View, Button, StyleSheet, Alert, FlatList, Image, TouchableOpacit
 import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { appFirebase } from '../../db/firebaseconfig';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'; // Usaremos MaterialCommunityIcons para íconos relacionados
+import { Picker } from '@react-native-picker/picker';  // Cambia aquí la importación
 
 export default function ProductManagement() {
     const db = getFirestore(appFirebase);
@@ -108,6 +109,27 @@ export default function ProductManagement() {
                         onChangeText={(text) => setEditingProduct({ ...editingProduct, cantidad: parseInt(text) })}
                         keyboardType="numeric"
                     />
+
+                    {/* Selector de categoría */}
+                    <Text style={styles.label}>Categoría</Text>
+                    <View style={styles.pickerContainer}>
+                        <Picker
+                            selectedValue={editingProduct.categoria}
+                            onValueChange={(itemValue) => setEditingProduct({ ...editingProduct, categoria: itemValue })}
+                            style={styles.pickerText}
+                        >
+                            <Picker.Item label="Seleccione una categoría" value="" />
+                            <Picker.Item label="Accesorios de vestimenta" value="vestimenta" />
+                            <Picker.Item label="Bolsos/Carteras" value="bolsos" />
+                            <Picker.Item label="Articulos de montura" value="montura" />
+                            <Picker.Item label="Herramientas/Accesorios para caballos" value="caballos" />
+                            <Picker.Item label="Accesorios para herramientas" value="herramientas" />
+                            <Picker.Item label="Decoracion para el hogar" value="hogar" />
+                            <Picker.Item label="Calzado" value="calzado" />
+                            <Picker.Item label="Accesorios personales" value="personales" />
+                        </Picker>
+                    </View>
+
                     <View style={styles.buttonRow}>
                         <Button title="Actualizar Producto" color="#A0522D" onPress={() => updateProduct(editingProduct)} />
                         <Button title="Cancelar" color="#8B0000" onPress={() => setEditingProduct(null)} />
@@ -129,6 +151,7 @@ export default function ProductManagement() {
                                     <Text><Text style={styles.bold}>Descripción:</Text> {item.descripcion}</Text>
                                     <Text><Text style={styles.bold}>Precio:</Text> ${item.precio}</Text>
                                     <Text><Text style={styles.bold}>Cantidad en stock:</Text> {item.cantidad}</Text>
+                                    <Text><Text style={styles.bold}>Categoría:</Text> {item.categoria}</Text> {/* Mostrar categoría */}
                                 </View>
                             </ScrollView>
                             <View style={styles.buttonRow}>
@@ -178,40 +201,57 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         backgroundColor: '#FFF',
     },
+    pickerContainer: {
+        borderWidth: 1,
+        borderColor: '#8B5E3C', // Color marrón cálido
+        borderRadius: 10, // Bordes redondeados
+        padding: 10,
+        backgroundColor: '#F5F0E1', // Color claro similar al cuero envejecido
+        marginTop: 8,
+        marginBottom: 12,
+    },
+    pickerText: {
+        fontSize: 16,
+        color: '#5D3F1F', // Color oscuro para el texto, tipo cuero
+    },
+    form: {
+        marginBottom: 20,
+    },
+    formTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 15,
+    },
+    label: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginBottom: 8,
+    },
     productRow: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginBottom: 20,
-        borderColor: '#8B4513',
-        borderWidth: 1,
-        borderRadius: 5,
+        marginBottom: 15,
         padding: 10,
-        backgroundColor: '#FFF8DC', // Beige claro
-    },
-    productInfo: {
-        flex: 1,
-        paddingLeft: 10,
+        backgroundColor: '#FFF',
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: '#A0522D',
+        alignItems: 'center',
     },
     productImage: {
         width: 100,
         height: 100,
-        marginRight: 10,
+        borderRadius: 8,
+        marginRight: 15,
     },
-    buttonRow: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
+    productInfo: {
+        flex: 1,
     },
     bold: {
         fontWeight: 'bold',
     },
-    form: {
-        marginTop: 20,
-    },
-    formTitle: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        marginBottom: 10,
-        color: '#8B4513',
+    buttonRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        width: 100,
     },
 });

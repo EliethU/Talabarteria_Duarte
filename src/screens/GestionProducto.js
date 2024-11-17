@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, Button, StyleSheet, Alert, FlatList, Image, TouchableOpacity, ScrollView, TextInput } from 'react-native';  // Asegúrate de importar TextInput aquí
+import { Text, View, Button, StyleSheet, Alert, FlatList, Image, TouchableOpacity, ScrollView, TextInput } from 'react-native';
 import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, updateDoc } from 'firebase/firestore';
-import { appFirebase } from '../..//db/firebaseconfig'; 
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import { appFirebase } from '../../db/firebaseconfig';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'; // Usaremos MaterialCommunityIcons para íconos relacionados
 
 export default function ProductManagement() {
     const db = getFirestore(appFirebase);
@@ -72,7 +72,7 @@ export default function ProductManagement() {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Gestión de Productos</Text>
+            <Text style={styles.title}>Gestión de productos</Text>
 
             {/* Barra de búsqueda */}
             <TextInput
@@ -109,8 +109,8 @@ export default function ProductManagement() {
                         keyboardType="numeric"
                     />
                     <View style={styles.buttonRow}>
-                        <Button title="Actualizar Producto" onPress={() => updateProduct(editingProduct)} />
-                        <Button title="Cancelar" onPress={() => setEditingProduct(null)} />
+                        <Button title="Actualizar Producto" color="#A0522D" onPress={() => updateProduct(editingProduct)} />
+                        <Button title="Cancelar" color="#8B0000" onPress={() => setEditingProduct(null)} />
                     </View>
                 </View>
             ) : (
@@ -133,7 +133,7 @@ export default function ProductManagement() {
                             </ScrollView>
                             <View style={styles.buttonRow}>
                                 <TouchableOpacity onPress={() => startEditing(item)}>
-                                    <Icon name="edit" size={24} color="#4CAF50" />
+                                    <Icon name="hammer-screwdriver" size={24} color="#A0522D" />
                                 </TouchableOpacity>
                                 <TouchableOpacity onPress={() => {
                                     Alert.alert(
@@ -145,7 +145,7 @@ export default function ProductManagement() {
                                         ]
                                     );
                                 }}>
-                                    <Icon name="delete" size={24} color="red" />
+                                    <Icon name="delete" size={24} color="#8B0000" />
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -160,25 +160,33 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
+        backgroundColor: '#F5F5DC', // Beige
     },
     title: {
         fontSize: 24,
         fontWeight: 'bold',
         marginBottom: 20,
         textAlign: 'center',
+        color: '#8B4513', // Marrón oscuro
     },
     input: {
         height: 40,
-        borderColor: '#ccc',
+        borderColor: '#A0522D',
         borderWidth: 1,
         borderRadius: 5,
         paddingLeft: 10,
         marginBottom: 10,
+        backgroundColor: '#FFF',
     },
     productRow: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginBottom: 20,
+        borderColor: '#8B4513',
+        borderWidth: 1,
+        borderRadius: 5,
+        padding: 10,
+        backgroundColor: '#FFF8DC', // Beige claro
     },
     productInfo: {
         flex: 1,
@@ -204,5 +212,6 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         marginBottom: 10,
-    }
+        color: '#8B4513',
+    },
 });

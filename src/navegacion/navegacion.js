@@ -1,10 +1,7 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
-import { View } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons'; // Importar los íconos
-import * as ImagePicker from 'expo-image-picker';
-
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'; // Cambiado a MaterialCommunityIcons
 
 import Product from '../screens/producto.js';
 import productList from '../screens/ListaProducto.js';
@@ -17,18 +14,25 @@ function MyTabs() {
         <Tab.Navigator
             screenOptions={{
                 tabBarStyle: {
-                    backgroundColor: '#fff', // Fondo blanco para la barra de navegación
-                    height: 60, // Aumentar altura para hacerlo más grande
-                    paddingBottom: 5,
-                    borderTopWidth: 0, // Eliminar borde superior
+                    backgroundColor: '#8B4513', // Marrón oscuro para fondo
+                    height: 70, // Altura aumentada
+                    borderTopWidth: 0, // Sin borde
                 },
                 tabBarLabelStyle: {
-                    fontSize: 12, // Reducir el tamaño de la etiqueta
-                    fontWeight: 'bold', // Etiquetas en negrita
-                    marginBottom: 5, // Espacio entre íconos y etiquetas
+                    fontSize: 14, // Etiquetas más legibles
+                    fontWeight: 'bold',
+                    marginBottom: 5,
+                    color: '#F5F5DC', // Beige para texto
                 },
-                tabBarActiveTintColor: '#4CAF50', // Color activo
-                tabBarInactiveTintColor: '#777', // Color inactivo
+                tabBarActiveTintColor: '#693820', // Marrón claro para el ícono activo
+                tabBarInactiveTintColor: '#F5F5DC', // Beige para íconos inactivos
+                headerStyle: {
+                    backgroundColor: '#8B4513', // Fondo marrón para encabezados
+                },
+                headerTintColor: '#F5F5DC', // Texto beige en encabezados
+                headerTitleStyle: {
+                    fontWeight: 'bold',
+                },
             }}
         >
             <Tab.Screen
@@ -36,8 +40,9 @@ function MyTabs() {
                 component={productList}
                 options={{
                     tabBarIcon: ({ color, size }) => (
-                        <Icon name="list" size={size} color={color} />
+                        <Icon name="format-list-bulleted" size={size + 4} color={color} />
                     ),
+                    title: 'Lista de Productos', // Título en la barra superior
                 }}
             />
             <Tab.Screen
@@ -45,8 +50,9 @@ function MyTabs() {
                 component={Product}
                 options={{
                     tabBarIcon: ({ color, size }) => (
-                        <Icon name="add" size={size} color={color} />
+                        <Icon name="plus-circle-outline" size={size + 4} color={color} />
                     ),
+                    title: 'Agregar Producto', // Título en la barra superior
                 }}
             />
             <Tab.Screen
@@ -54,8 +60,9 @@ function MyTabs() {
                 component={GestionProducto}
                 options={{
                     tabBarIcon: ({ color, size }) => (
-                        <Icon name="settings" size={size} color={color} />
+                        <Icon name="toolbox" size={size + 4} color={color} />
                     ),
+                    title: 'Gestión de Productos', // Título en la barra superior
                 }}
             />
         </Tab.Navigator>

@@ -104,7 +104,7 @@ export default function Product() {
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            <Text style={styles.titulo}>Nuevo Producto</Text>
+            <Text style={styles.titulo}>Nuevo producto</Text>
 
             <View style={styles.inputContainer}>
                 <Text style={styles.label}>Nombre del producto:</Text>
@@ -168,57 +168,70 @@ export default function Product() {
 const styles = StyleSheet.create({
     container: {
         padding: 20,
-        backgroundColor: '#fff',
+        backgroundColor: '#f7f3e9', // Fondo cálido similar al cuero claro.
     },
     titulo: {
-        fontSize: 24,
+        fontSize: 26,
         fontWeight: 'bold',
         textAlign: 'center',
         marginVertical: 20,
-        color: '#333',
+        color: '#6b4226', // Tonos marrones oscuros similares al cuero curtido.
+        fontFamily: 'serif', // Fuente que evoca un diseño clásico.
     },
     inputContainer: {
         marginBottom: 20,
     },
     label: {
-        fontSize: 16,
+        fontSize: 18,
         marginBottom: 8,
-        color: '#333',
+        color: '#6b4226',
+        fontWeight: '600',
     },
     TextInput: {
-        borderColor: '#ddd',
+        borderColor: '#d4a373', // Color similar al costurado de cuero.
         borderWidth: 1,
-        borderRadius: 8,
+        borderRadius: 10,
         padding: 12,
         fontSize: 16,
-        width: '100%',
+        backgroundColor: '#fffbe8', // Fondo cálido que recuerda la artesanía.
+        fontFamily: 'sans-serif',
     },
     errorText: {
-        color: 'red',
+        color: '#b22222', // Rojo para destacar errores.
         marginTop: 4,
+        fontSize: 14,
+        fontWeight: 'bold',
     },
     image: {
         width: 150,
         height: 150,
         marginVertical: 10,
         alignSelf: 'center',
-        borderRadius: 8,
+        borderRadius: 10,
+        borderWidth: 2,
+        borderColor: '#6b4226', // Detalles marrones para resaltar.
     },
     button: {
-        backgroundColor: '#b59f5e',
+        backgroundColor: '#a5673f', // Marrón cálido.
         paddingVertical: 12,
         paddingHorizontal: 20,
         borderRadius: 8,
         marginTop: 10,
         alignItems: 'center',
+        shadowColor: '#000', // Sombra sutil para resaltar el botón.
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
     },
     buttonText: {
-        color: '#fff',
+        color: '#fefae0', // Tonos crema.
         fontSize: 16,
         fontWeight: 'bold',
+        fontFamily: 'serif',
     },
     submitButton: {
-        backgroundColor: '#705b14',
+        backgroundColor: '#5d3e1e', // Marrón oscuro para acciones importantes.
         paddingVertical: 12,
         paddingHorizontal: 20,
         borderRadius: 8,
@@ -226,8 +239,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     submitButtonText: {
-        color: '#fff',
+        color: '#fff', // Contraste claro.
         fontSize: 18,
         fontWeight: 'bold',
+        fontFamily: 'serif',
     },
 });
+

@@ -1,4 +1,4 @@
-import { View, Text, Button, StyleSheet, Image, ScrollView, TextInput, Alert, TouchableOpacity } from 'react-native';
+import { View, Text, Button, StyleSheet, Image, ScrollView, TextInput, Alert, useEffect,TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
 import { collection, addDoc, getFirestore } from "firebase/firestore"; 
 import * as ImagePicker from 'expo-image-picker';
@@ -15,7 +15,7 @@ export default function Product() {
         precio: "",
         categoria: "", // Agregar la categoría en el estado
         imagen: "https://example.com/default-image.png",
-    });
+    });      
 
     const [errors, setErrors] = useState({});
     const [image, setImage] = useState(null);
@@ -129,6 +129,7 @@ export default function Product() {
     };
 
     return (
+        
         <ScrollView contentContainerStyle={styles.container}>
             <Text style={styles.titulo}>Nuevo producto</Text>
 
@@ -214,14 +215,14 @@ export default function Product() {
 const styles = StyleSheet.create({
     container: {
         padding: 20,
-        backgroundColor: '#fff',
+        backgroundColor: '#fdf7e3',
     },
     titulo: {
         fontSize: 24,
         fontWeight: 'bold',
         textAlign: 'center',
         marginVertical: 20,
-        color: '#333',
+        color: '#4a3d2f',
     },
     inputContainer: {
         marginBottom: 20,
@@ -238,10 +239,12 @@ const styles = StyleSheet.create({
         padding: 12,
         fontSize: 16,
         width: '100%',
+        backgroundColor: '#fff',
     },
     errorText: {
         color: 'red',
         marginTop: 4,
+        fontSize: 14,
     },
     image: {
         width: 150,
@@ -249,14 +252,18 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         alignSelf: 'center',
         borderRadius: 8,
+        borderWidth: 2,
+        borderColor: '#ddd',
     },
     button: {
+        flexDirection: 'row',
         backgroundColor: '#b59f5e',
         paddingVertical: 12,
         paddingHorizontal: 20,
         borderRadius: 8,
         marginTop: 10,
         alignItems: 'center',
+        justifyContent: 'center',
     },
     buttonText: {
         color: '#fff',
@@ -265,7 +272,7 @@ const styles = StyleSheet.create({
     },
     submitButton: {
         backgroundColor: '#705b14',
-        paddingVertical: 12,
+        paddingVertical: 14,
         paddingHorizontal: 20,
         borderRadius: 8,
         marginTop: 20,

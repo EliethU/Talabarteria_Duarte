@@ -181,19 +181,108 @@ export default function ProductManagement() {
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, padding: 20 },
-    title: { fontSize: 24, fontWeight: 'bold', textAlign: 'center', marginBottom: 20 },
-    input: { borderWidth: 1, borderColor: '#ccc', padding: 10, marginBottom: 20, borderRadius: 5 },
-    form: { marginBottom: 20 },
-    formTitle: { fontSize: 18, fontWeight: 'bold', marginBottom: 10 },
-    label: { fontSize: 16, fontWeight: 'bold', marginBottom: 5 },
-    pickerContainer: { borderWidth: 1, borderColor: '#ccc', borderRadius: 5, marginBottom: 10 },
-    pickerText: { height: 40, width: '100%' },
-    buttonRow: { flexDirection: 'row', justifyContent: 'space-between' },
-    productRow: { flexDirection: 'row', marginBottom: 20, borderBottomWidth: 1, borderBottomColor: '#ccc', paddingBottom: 10 },
-    productImage: { width: 100, height: 100, marginRight: 10 },
-    productInfo: { flex: 1, justifyContent: 'center' },
-    productInfoText: { fontSize: 16, marginBottom: 5 },
-    bold: { fontWeight: 'bold' },
-    actions: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' },
+    container: { 
+        flex: 1, 
+        padding: 20, 
+        backgroundColor: '#fdf7e3', // Fondo claro y agradable 
+    },
+    title: { 
+        fontSize: 26, 
+        fontWeight: 'bold', 
+        textAlign: 'center', 
+        marginBottom: 20, 
+        color: '#2F4F4F', // Tono oscuro elegante
+    },
+    input: { 
+        borderWidth: 1, 
+        borderColor: '#dcdcdc', 
+        padding: 12, 
+        marginBottom: 12, 
+        borderRadius: 8, 
+        backgroundColor: '#ffffff', // Fondo blanco
+        elevation: 2, // Sombra sutil para el campo
+    },
+    form: { 
+        backgroundColor: '#ffffff', 
+        padding: 20, 
+        borderRadius: 10, 
+        elevation: 3, 
+        marginBottom: 20, 
+    },
+    formTitle: { 
+        fontSize: 20, 
+        fontWeight: 'bold', 
+        color: '#2E8B57', 
+        marginBottom: 10, 
+        textAlign: 'center',
+    },
+    label: { 
+        fontSize: 16, 
+        fontWeight: 'bold', 
+        marginBottom: 5, 
+        color: '#696969', // Gris sutil
+    },
+    pickerContainer: {
+        borderWidth: 1,
+        borderColor: '#dcdcdc',
+        borderRadius: 8,
+        marginBottom: 12,
+        backgroundColor: '#ffffff',
+        elevation: 2,
+        justifyContent: 'center',
+    },
+    pickerText: {
+        height: 50,
+        width: '100%',
+        paddingHorizontal: 10,
+        color: '#333333',
+        fontSize: 16,
+    },
+    buttonRow: { 
+        flexDirection: 'row', 
+        justifyContent: 'space-between', 
+        marginTop: 20,
+    },
+    productRow: { 
+        flexDirection: 'row', 
+        marginBottom: 20, 
+        padding: 10, 
+        backgroundColor: '#ffffff', 
+        borderRadius: 10, 
+        elevation: 3, 
+    },
+    productImage: { 
+        width: 100, 
+        height: 100, 
+        marginRight: 15, 
+        borderRadius: 8, 
+    },
+    productInfo: { 
+        flex: 1, 
+        justifyContent: 'center', 
+    },
+    productInfoText: { 
+        fontSize: 16, 
+        marginBottom: 5, 
+        color: '#333333', 
+    },
+    bold: { 
+        fontWeight: 'bold', 
+        color: '#2F4F4F', // Oscuro para contraste
+    },
+    actions: { 
+        flexDirection: 'row', 
+        alignItems: 'center', 
+        justifyContent: 'space-around', 
+        marginTop: 10, 
+    },
+    actionButton: { 
+        padding: 10, 
+        borderRadius: 8, 
+        backgroundColor: '#fff', 
+        elevation: 3, 
+    },
+    actionIcon: { 
+        fontSize: 24, 
+    },
 });

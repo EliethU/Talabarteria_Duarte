@@ -87,7 +87,7 @@ export default function Estadistica() {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Distribución por Categorías</Text>
+            <Text style={styles.title}>Distribución por categorías</Text>
             {data.length > 0 ? (
                 <PieChart
                     data={data}
@@ -118,7 +118,7 @@ export default function Estadistica() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#f5f5f5',
+        backgroundColor: '#fdf7e3',
         padding: 16,
         alignItems: 'center',
     },

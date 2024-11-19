@@ -55,8 +55,8 @@ export default function ProductList() {
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) => (
                     <View style={styles.productCard}>
-                        {item.imageUrl ? (
-                            <Image source={{ uri: item.imageUrl }} style={styles.image} />
+                        {item.imagen ? (
+                            <Image source={{ uri: item.imagen }} style={styles.image} />
                         ) : (
                             <Text style={styles.noImageText}>Sin Imagen</Text>
                         )}
@@ -78,26 +78,32 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 10,
-        backgroundColor: '#f8f4ec',
+        backgroundColor: '#fdf7e3',
     },
     title: {
-        fontSize: 28,
+        fontSize: 30,
         fontWeight: 'bold',
-        color: '#4f2d13',
+        color: '#8c4c25',
         marginBottom: 20,
         textAlign: 'center',
         fontFamily: 'serif',
+        textTransform: 'uppercase',
     },
     searchInput: {
         height: 45,
-        borderColor: '#a17c44',
+        borderColor: '#d4a373',
         borderWidth: 1,
-        borderRadius: 8,
-        paddingHorizontal: 12,
+        borderRadius: 10,
+        paddingHorizontal: 15,
         fontSize: 16,
-        backgroundColor: '#fdfaf4',
-        color: '#4f2d13',
+        backgroundColor: '#fffdfa',
+        color: '#5a3a2c',
         marginBottom: 20,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.1,
+        shadowRadius: 3,
+        elevation: 2,
     },
     listContainer: {
         paddingBottom: 20,
@@ -105,53 +111,56 @@ const styles = StyleSheet.create({
     productCard: {
         flex: 1,
         marginVertical: 10,
-        backgroundColor: '#fdf6e3',
+        backgroundColor: '#ffffff',
         borderRadius: 12,
         borderWidth: 1,
-        borderColor: '#a17c44',
+        borderColor: '#e2c099',
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.3,
-        shadowRadius: 4,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.2,
+        shadowRadius: 6,
         elevation: 5,
         padding: 15,
         alignItems: 'center',
+        width: '95%',
+        alignSelf: 'center',
     },
     image: {
-        width: width * 0.4,
-        height: width * 0.4,
-        borderRadius: 10,
-        marginBottom: 10,
+        width: width * 0.6,
+        height: width * 0.6,
+        borderRadius: 12,
+        marginBottom: 15,
     },
     noImageText: {
         fontSize: 14,
-        color: '#a17c44',
+        color: '#d4a373',
         marginBottom: 10,
         fontStyle: 'italic',
+        textAlign: 'center',
     },
     nombre: {
-        fontSize: 18,
+        fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'center',
-        color: '#4f2d13',
+        color: '#5a3a2c',
         marginBottom: 5,
     },
     descripcion: {
         fontSize: 14,
-        color: '#7f6a3d',
+        color: '#8c7c6b',
         textAlign: 'center',
         marginBottom: 10,
         fontStyle: 'italic',
     },
     precio: {
-        fontSize: 20,
+        fontSize: 22,
         fontWeight: 'bold',
-        color: '#4f2d13',
+        color: '#8c4c25',
         marginBottom: 10,
     },
     categoria: {
         fontSize: 14,
         fontStyle: 'italic',
-        color: '#7f6a3d',
+        color: '#8c7c6b',
     },
 });

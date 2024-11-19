@@ -16,7 +16,6 @@ export default function Estadistica() {
             const productosCollection = collection(db, 'productos');
             const snapshot = await getDocs(productosCollection);
 
-            // Crear un objeto para almacenar la suma de cantidades por categoría
             const categorias = {};
 
             snapshot.forEach((doc) => {
@@ -24,21 +23,18 @@ export default function Estadistica() {
                 const cantidad = parseFloat(producto.cantidad);
 
                 if (producto.categoria && !isNaN(cantidad) && cantidad > 0) {
-                    // Si la categoría ya existe, suma la cantidad
                     if (categorias[producto.categoria]) {
                         categorias[producto.categoria] += cantidad;
                     } else {
-                        // Si la categoría no existe, inicializa con la cantidad
                         categorias[producto.categoria] = cantidad;
                     }
                 }
             });
 
-            // Convertir el objeto a un arreglo de datos para el gráfico
             const chartData = Object.keys(categorias).map((categoria, index) => ({
                 name: categoria,
                 cantidad: categorias[categoria],
-                color: getColorForCategory(index),  // Asignar color según el índice
+                color: getColorForCategory(index),
                 legendFontColor: '#7F7F7F',
                 legendFontSize: 15,
             }));
@@ -49,54 +45,40 @@ export default function Estadistica() {
         fetchData();
     }, []);
 
-    // Gama de colores relacionados con la talabartería
     const colorPalette = [
-        '#8B4513', // Marrón (cuero)
-        '#A0522D', // Marrón oscuro
-        '#D2691E', // Marrón chocolate
-        '#C19A6B', // Marrón claro
-        '#F4A460', // Marrón arena
-        '#DEB887', // Beige (madera)
-        '#D2B48C', // Marrón claro (paja)
-        '#CD853F', // Marrón rojizo
+        '#8B4513', '#A0522D', '#D2691E', '#C19A6B',
+        '#F4A460', '#DEB887', '#D2B48C', '#CD853F',
     ];
 
     const getColorForCategory = (index) => {
-        // Usar un color de la paleta para cada categoría
         return colorPalette[index % colorPalette.length];
     };
 
     const generarPDF = async () => {
+        if (data.length === 0) {
+            Alert.alert('Advertencia', 'No hay datos disponibles para generar el PDF.');
+            return;
+        }
+
         try {
-            // Crear una instancia de jsPDF
             const doc = new jsPDF();
+            doc.text("Reporte de Productos por Categoría", 10, 10);
 
-            // Agregar título al PDF
-            doc.text("Reporte de Productos por categoría", 10, 10);
-
-            // Agregar los datos al PDF desde los datos del gráfico
-            let yOffset = 20;  // Posición de inicio para los textos
-
-            data.forEach((item, index) => {
-                // Agregar el nombre de la categoría y la cantidad
+            let yOffset = 20;
+            data.forEach((item) => {
+                doc.setTextColor(item.color);
                 doc.text(`${item.name}: ${item.cantidad.toFixed(2)} unidades`, 10, yOffset);
-                yOffset += 10;  // Incrementar el desplazamiento para el siguiente texto
+                yOffset += 10;
             });
 
-            // Generar el PDF como base64
             const pdfBase64 = doc.output('datauristring').split(',')[1];
-
-            // Definir la ruta temporal para el archivo PDF en el sistema de archivos del dispositivo
             const fileUri = `${FileSystem.documentDirectory}reporte_producto.pdf`;
 
-            // Guardar el archivo PDF
             await FileSystem.writeAsStringAsync(fileUri, pdfBase64, {
-                encoding: FileSystem.EncodingType.Base64
+                encoding: FileSystem.EncodingType.Base64,
             });
 
-            // Compartir el archivo PDF
             await Sharing.shareAsync(fileUri);
-
         } catch (error) {
             console.error("Error al generar o compartir el PDF: ", error);
             Alert.alert('Error', 'No se pudo generar o compartir el PDF.');
@@ -122,8 +104,13 @@ export default function Estadistica() {
                 <Text>No se encontraron productos con cantidad válida.</Text>
             )}
 
-            {/* Botón para generar y compartir PDF */}
-            <Button title="Generar y Compartir PDF" onPress={generarPDF} />
+            <View style={styles.buttonContainer}>
+                <Button
+                    title="Generar y compartir PDF"
+                    color="#8B4513"
+                    onPress={generarPDF}
+                />
+            </View>
         </View>
     );
 }
@@ -140,5 +127,9 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 20,
         color: '#8B4513',
+    },
+    buttonContainer: {
+        marginTop: 20,
+        width: '80%',
     },
 });

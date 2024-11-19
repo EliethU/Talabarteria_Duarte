@@ -40,23 +40,18 @@ export default function Product() {
     const validarDatos = () => {
         let valid = true;
         let newErrors = {};
-
-        if (!image) {
-            Alert.alert('Imagen requerida', 'Por favor, selecciona una imagen para el producto.');
-            return;
-        }
-
-        // Verificar que todos los campos estén llenos
+    
+        // Verificar campos vacíos
         if (!product.nombre.trim()) {
             newErrors.nombre = 'El nombre del producto es obligatorio';
             valid = false;
         }
-
+    
         if (!product.descripcion.trim()) {
             newErrors.descripcion = 'La descripción del producto es obligatoria';
             valid = false;
         }
-
+    
         if (!product.cantidad.trim()) {
             newErrors.cantidad = 'La cantidad es obligatoria';
             valid = false;
@@ -64,7 +59,7 @@ export default function Product() {
             newErrors.cantidad = 'La cantidad debe ser un número positivo';
             valid = false;
         }
-
+    
         if (!product.precio.trim()) {
             newErrors.precio = 'El precio es obligatorio';
             valid = false;
@@ -72,34 +67,57 @@ export default function Product() {
             newErrors.precio = 'El precio debe ser un número positivo';
             valid = false;
         }
-
+    
         if (!product.categoria.trim()) {
             newErrors.categoria = 'La categoría es obligatoria';
             valid = false;
         }
-
+    
+        // Actualizar errores visuales
         setErrors(newErrors);
-
-        if (valid) {
-            guardarProducto({
-                ...product,
-                cantidad: parseInt(product.cantidad),
-                precio: parseFloat(product.precio),
-                imageUrl: image || product.imagen,
-            });
-            setProducts({
-                nombre: "",
-                descripcion: "",
-                cantidad: "",
-                precio: "",
-                categoria: "", // Resetear la categoría
-                imagen: "https://example.com/default-image.png",
-            });
-            setImage(null);
-            Alert.alert('Éxito', 'Producto registrado correctamente');
-            setErrors({});
+    
+        // Si hay errores en los campos, detener validación
+        if (!valid) {
+            Alert.alert(
+                'Error en los campos',
+                'Por favor, completa todos los campos requeridos correctamente.',
+                [{ text: 'OK' }]
+            );
+            return;
         }
+    
+        // Validar imagen
+        if (!image) {
+            Alert.alert(
+                'Imagen requerida',
+                'Por favor, selecciona una imagen para el producto.',
+                [{ text: 'OK' }]
+            );
+            return;
+        }
+    
+        // Si todo es válido, guardar producto
+        guardarProducto({
+            ...product,
+            cantidad: parseInt(product.cantidad),
+            precio: parseFloat(product.precio),
+            imageUrl: image || product.imagen,
+        });
+    
+        // Restablecer estado tras guardar
+        setProducts({
+            nombre: "",
+            descripcion: "",
+            cantidad: "",
+            precio: "",
+            categoria: "",
+            imagen: "https://example.com/default-image.png",
+        });
+        setImage(null);
+        Alert.alert('Éxito', 'Producto registrado correctamente');
+        setErrors({});
     };
+    
 
     const guardarProducto = async (product) => {
         try {
@@ -112,7 +130,7 @@ export default function Product() {
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            <Text style={styles.titulo}>Nuevo Producto</Text>
+            <Text style={styles.titulo}>Nuevo producto</Text>
 
             <View style={styles.inputContainer}>
                 <Text style={styles.label}>Nombre del producto:</Text>
@@ -181,13 +199,13 @@ export default function Product() {
             </View>
 
             <TouchableOpacity style={styles.button} onPress={pickImage}>
-                <Text style={styles.buttonText}>Seleccionar Imagen</Text>
+                <Text style={styles.buttonText}>Seleccionar imagen</Text>
             </TouchableOpacity>
 
             {image && <Image source={{ uri: image }} style={styles.image} />}
 
             <TouchableOpacity style={styles.submitButton} onPress={validarDatos}>
-                <Text style={styles.submitButtonText}>Registrar Producto</Text>
+                <Text style={styles.submitButtonText}>Registrar producto</Text>
             </TouchableOpacity>
         </ScrollView>
     );

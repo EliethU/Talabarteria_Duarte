@@ -56,7 +56,7 @@ export default function ProductList() {
                 renderItem={({ item }) => (
                     <View style={styles.productCard}>
                         {item.imagen ? (
-                            <Image source={{ uri: item.imagen }} style={styles.image} />
+                            <Image source={{ uri: item.imageUrl }} style={styles.image} />
                         ) : (
                             <Text style={styles.noImageText}>Sin Imagen</Text>
                         )}

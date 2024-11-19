@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { collection, addDoc, getFirestore } from "firebase/firestore"; 
 import * as ImagePicker from 'expo-image-picker';
 import { appFirebase } from '../../db/firebaseconfig';
-import { Picker } from '@react-native-picker/picker'; // Importar el Picker
+import { Picker } from '@react-native-picker/picker'; 
 
 export default function Product() {
     const db = getFirestore(appFirebase);
@@ -13,7 +13,7 @@ export default function Product() {
         descripcion: "",
         cantidad: "",
         precio: "",
-        categoria: "", // Agregar la categoría en el estado
+        categoria: "",
         imagen: "https://example.com/default-image.png",
     });      
 
@@ -41,7 +41,7 @@ export default function Product() {
         let valid = true;
         let newErrors = {};
     
-        // Verificar campos vacíos
+        // Verificacion de campos vacíos
         if (!product.nombre.trim()) {
             newErrors.nombre = 'El nombre del producto es obligatorio';
             valid = false;
@@ -73,10 +73,8 @@ export default function Product() {
             valid = false;
         }
     
-        // Actualizar errores visuales
         setErrors(newErrors);
     
-        // Si hay errores en los campos, detener validación
         if (!valid) {
             Alert.alert(
                 'Error en los campos',
@@ -86,7 +84,7 @@ export default function Product() {
             return;
         }
     
-        // Validar imagen
+        // Validacion de imagen
         if (!image) {
             Alert.alert(
                 'Imagen requerida',
@@ -96,7 +94,6 @@ export default function Product() {
             return;
         }
     
-        // Si todo es válido, guardar producto
         guardarProducto({
             ...product,
             cantidad: parseInt(product.cantidad),

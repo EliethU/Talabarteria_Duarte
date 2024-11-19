@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Text, View, Button, StyleSheet, Alert, FlatList, Image, TouchableOpacity, ScrollView, TextInput } from 'react-native';
 import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { appFirebase } from '../../db/firebaseconfig';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'; // Usaremos MaterialCommunityIcons para íconos relacionados
-import { Picker } from '@react-native-picker/picker';  // Cambia aquí la importación
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Picker } from '@react-native-picker/picker';
 
 export default function ProductManagement() {
     const db = getFirestore(appFirebase);
@@ -143,7 +143,7 @@ export default function ProductManagement() {
                         <View style={styles.productRow}>
                             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                                 <Image
-                                    source={{ uri: item.imageUrl || 'defaultImageURL' }} // Imagen por defecto
+                                    source={{ uri: item.imageUrl || 'defaultImageURL' }}
                                     style={styles.productImage}
                                 />
                                 <View style={styles.productInfo}>
@@ -184,14 +184,14 @@ const styles = StyleSheet.create({
     container: { 
         flex: 1, 
         padding: 20, 
-        backgroundColor: '#fdf7e3', // Fondo claro y agradable 
+        backgroundColor: '#fdf7e3',
     },
     title: { 
         fontSize: 26, 
         fontWeight: 'bold', 
         textAlign: 'center', 
         marginBottom: 20, 
-        color: '#2F4F4F', // Tono oscuro elegante
+        color: '#2F4F4F',
     },
     input: { 
         borderWidth: 1, 
@@ -199,8 +199,8 @@ const styles = StyleSheet.create({
         padding: 12, 
         marginBottom: 12, 
         borderRadius: 8, 
-        backgroundColor: '#ffffff', // Fondo blanco
-        elevation: 2, // Sombra sutil para el campo
+        backgroundColor: '#ffffff',
+        elevation: 2, 
     },
     form: { 
         backgroundColor: '#ffffff', 
@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
         fontSize: 16, 
         fontWeight: 'bold', 
         marginBottom: 5, 
-        color: '#696969', // Gris sutil
+        color: '#696969', 
     },
     pickerContainer: {
         borderWidth: 1,
@@ -268,7 +268,7 @@ const styles = StyleSheet.create({
     },
     bold: { 
         fontWeight: 'bold', 
-        color: '#2F4F4F', // Oscuro para contraste
+        color: '#2F4F4F', 
     },
     actions: { 
         flexDirection: 'row', 

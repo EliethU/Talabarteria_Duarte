@@ -4,8 +4,8 @@ import { PieChart } from 'react-native-chart-kit';
 import { Dimensions } from 'react-native';
 import { getFirestore, collection, getDocs } from 'firebase/firestore';
 import { jsPDF } from 'jspdf';
-import * as FileSystem from 'expo-file-system'; // Manejo de archivos
-import * as Sharing from 'expo-sharing'; // Para compartir archivos
+import * as FileSystem from 'expo-file-system'; 
+import * as Sharing from 'expo-sharing'; 
 
 export default function Estadistica() {
     const [data, setData] = useState([]);

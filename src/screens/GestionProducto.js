@@ -73,12 +73,12 @@ export default function ProductManagement() {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Gestión de productos</Text>
+            <Text style={styles.title}>🌵 Gestión de productos 🌵</Text>
 
             {/* Barra de búsqueda */}
             <TextInput
                 style={styles.input}
-                placeholder="Buscar por nombre o precio"
+                placeholder="🔍 Buscar por nombre o precio"
                 value={searchText}
                 onChangeText={filterProducts}
             />
@@ -86,7 +86,7 @@ export default function ProductManagement() {
             {/* Lista de productos */}
             {editingProduct ? (
                 <View style={styles.form}>
-                    <Text style={styles.formTitle}>Editar producto</Text>
+                    <Text style={styles.formTitle}>🛠️ Editar producto</Text>
                     <TextInput
                         style={styles.input}
                         value={editingProduct.nombre}
@@ -121,17 +121,14 @@ export default function ProductManagement() {
                             <Picker.Item label="Seleccione una categoría" value="" />
                             <Picker.Item label="Accesorios de vestimenta" value="vestimenta" />
                             <Picker.Item label="Bolsos/Carteras" value="bolsos" />
-                            <Picker.Item label="Articulos de montura" value="montura" />
-                            <Picker.Item label="Herramientas/Accesorios para caballos" value="caballos" />
-                            <Picker.Item label="Accesorios para herramientas" value="herramientas" />
-                            <Picker.Item label="Decoracion para el hogar" value="hogar" />
-                            <Picker.Item label="Calzado" value="calzado" />
+                            <Picker.Item label="Artículos de montura" value="montura" />
+                            <Picker.Item label="Herramientas para caballos" value="caballos" />
                             <Picker.Item label="Accesorios personales" value="personales" />
                         </Picker>
                     </View>
 
                     <View style={styles.buttonRow}>
-                        <Button title="Actualizar Producto" color="#A0522D" onPress={() => updateProduct(editingProduct)} />
+                        <Button title="Actualizar" color="#A0522D" onPress={() => updateProduct(editingProduct)} />
                         <Button title="Cancelar" color="#8B0000" onPress={() => setEditingProduct(null)} />
                     </View>
                 </View>
@@ -157,19 +154,16 @@ export default function ProductManagement() {
                                         <Text style={styles.bold}>Precio:</Text> ${item.precio}
                                     </Text>
                                     <Text style={styles.productInfoText}>
-                                        <Text style={styles.bold}>Cantidad en stock:</Text> {item.cantidad}
-                                    </Text>
-                                    <Text style={styles.productInfoText}>
-                                        <Text style={styles.bold}>Categoría:</Text> {item.categoria}
+                                        <Text style={styles.bold}>Stock:</Text> {item.cantidad}
                                     </Text>
                                 </View>
                             </ScrollView>
                             <View style={styles.actions}>
                                 <TouchableOpacity onPress={() => startEditing(item)}>
-                                    <Icon name="pencil" size={25} color="orange" />
+                                    <Icon name="pencil" size={25} color="#D2691E" />
                                 </TouchableOpacity>
                                 <TouchableOpacity onPress={() => deleteProduct(item.id)}>
-                                    <Icon name="delete" size={25} color="red" />
+                                    <Icon name="delete" size={25} color="#8B0000" />
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -187,11 +181,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#fdf7e3',
     },
     title: { 
-        fontSize: 26, 
-        fontWeight: 'bold', 
-        textAlign: 'center', 
-        marginBottom: 20, 
-        color: '#2F4F4F',
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#704214',
+        marginBottom: 20,
+        textAlign: 'center',
+        fontFamily: 'serif',
+        textTransform: 'uppercase',
     },
     input: { 
         borderWidth: 1, 
@@ -210,11 +206,13 @@ const styles = StyleSheet.create({
         marginBottom: 20, 
     },
     formTitle: { 
-        fontSize: 20, 
-        fontWeight: 'bold', 
-        color: '#2E8B57', 
-        marginBottom: 10, 
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#704214',
+        marginBottom: 10,
         textAlign: 'center',
+        fontFamily: 'serif',
+        textTransform: 'uppercase',
     },
     label: { 
         fontSize: 16, 

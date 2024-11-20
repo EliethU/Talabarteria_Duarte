@@ -20,7 +20,7 @@ export default function ProductList() {
             setProducts(productsList);
             setFilteredProducts(productsList);
         } catch (error) {
-            console.log("Error al obtener los productos: ", error);
+            console.log('Error al obtener los productos: ', error);
         }
     };
 
@@ -40,11 +40,11 @@ export default function ProductList() {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Talabartería Duarte</Text>
+            <Text style={styles.title}> 🐴Talabartería Duarte 🐴</Text>
             
             <TextInput
                 style={styles.searchInput}
-                placeholder="Buscar productos..."
+                placeholder="🔍 Buscar por nombre o precio"
                 placeholderTextColor="#a17c44"
                 value={searchText}
                 onChangeText={setSearchText}
@@ -60,10 +60,14 @@ export default function ProductList() {
                         ) : (
                             <Text style={styles.noImageText}>Sin Imagen</Text>
                         )}
-                        <Text style={styles.nombre}>{item.nombre ? String(item.nombre) : 'Nombre no disponible'}</Text>
-                        <Text style={styles.descripcion}>{item.descripcion ? String(item.descripcion) : 'Descripción no disponible'}</Text>
-                        <Text style={styles.precio}>${item.precio ? String(item.precio) : 'Precio no disponible'}</Text>
-                        {item.categoria && <Text style={styles.categoria}>{String(item.categoria)}</Text>}
+                        <View style={styles.textContainer}>
+                            <Text style={styles.nombre}>{item.nombre}</Text>
+                            <Text style={styles.descripcion}>{item.descripcion}</Text>
+                            <Text style={styles.precio}>${item.precio}</Text>
+                        </View>
+                        {item.categoria && (
+                            <Text style={styles.categoria}>Categoría: {item.categoria}</Text>
+                        )}
                     </View>
                 )}
                 contentContainerStyle={styles.listContainer}
@@ -78,12 +82,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 10,
-        backgroundColor: '#fdf7e3',
+        backgroundColor: '#f9e4c9',
     },
     title: {
-        fontSize: 30,
+        fontSize:23,
         fontWeight: 'bold',
-        color: '#8c4c25',
+        color: '#704214',
         marginBottom: 20,
         textAlign: 'center',
         fontFamily: 'serif',
@@ -91,19 +95,19 @@ const styles = StyleSheet.create({
     },
     searchInput: {
         height: 45,
-        borderColor: '#d4a373',
+        borderColor: '#c49a6c',
         borderWidth: 1,
-        borderRadius: 10,
+        borderRadius: 15,
         paddingHorizontal: 15,
         fontSize: 16,
-        backgroundColor: '#fffdfa',
+        backgroundColor: '#fffaf0',
         color: '#5a3a2c',
         marginBottom: 20,
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 1 },
+        shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
         shadowRadius: 3,
-        elevation: 2,
+        elevation: 3,
     },
     listContainer: {
         paddingBottom: 20,
@@ -111,56 +115,62 @@ const styles = StyleSheet.create({
     productCard: {
         flex: 1,
         marginVertical: 10,
-        backgroundColor: '#ffffff',
-        borderRadius: 12,
-        borderWidth: 1,
-        borderColor: '#e2c099',
+        backgroundColor: '#fff8ed',
+        borderRadius: 20,
+        borderWidth: 2,
+        borderColor: '#d9a066',
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.2,
-        shadowRadius: 6,
-        elevation: 5,
-        padding: 15,
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.3,
+        shadowRadius: 5,
+        elevation: 4,
+        padding: 20,
         alignItems: 'center',
         width: '95%',
         alignSelf: 'center',
     },
     image: {
-        width: width * 0.6,
-        height: width * 0.6,
-        borderRadius: 12,
+        width: width * 0.65,
+        height: width * 0.65,
+        borderRadius: 15,
         marginBottom: 15,
+        borderColor: '#704214',
+        borderWidth: 1,
     },
     noImageText: {
-        fontSize: 14,
-        color: '#d4a373',
+        fontSize: 16,
+        color: '#b0835a',
         marginBottom: 10,
         fontStyle: 'italic',
         textAlign: 'center',
     },
+    textContainer: {
+        alignItems: 'center',
+    },
     nombre: {
-        fontSize: 20,
+        fontSize: 22,
         fontWeight: 'bold',
         textAlign: 'center',
         color: '#5a3a2c',
-        marginBottom: 5,
+        marginBottom: 8,
     },
     descripcion: {
-        fontSize: 14,
-        color: '#8c7c6b',
+        fontSize: 16,
+        color: '#704214',
         textAlign: 'center',
         marginBottom: 10,
         fontStyle: 'italic',
     },
     precio: {
-        fontSize: 22,
+        fontSize: 24,
         fontWeight: 'bold',
         color: '#8c4c25',
         marginBottom: 10,
     },
     categoria: {
-        fontSize: 14,
+        fontSize: 16,
+        color: '#704214',
         fontStyle: 'italic',
-        color: '#8c7c6b',
+        textAlign: 'center',
     },
 });
